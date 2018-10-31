@@ -42,7 +42,7 @@ public class FakeBombInfo : MonoBehaviour
                     ports.Add("DVI");
                     portList += "DVI";
                 }
-                if (Random.value > 0.95)
+                if (Random.value > 0)
                 {
                     ports.Add("PS2");
                     if (portList.Length > 0) portList += ", ";

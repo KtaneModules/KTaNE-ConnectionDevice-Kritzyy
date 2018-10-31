@@ -143,7 +143,7 @@ public class KritConnectionDev : MonoBehaviour
 
     List<string> EvenLetterList = new List<string>
     {
-        "D", "F", "H", "J", "L", "N", "P", "R", "T", "V", "X", "Z"
+        "F", "H", "J", "L", "N", "P", "R", "T", "V", "X", "Z"
     };
 
     List<string> SetButtonLetters = new List<string>();
@@ -823,6 +823,10 @@ public class KritConnectionDev : MonoBehaviour
                 LetterGen3 = Random.Range(0, 23);
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
+
+                LetterGen4 = Random.Range(0, 22);
+                Letter4value = LetterList[LetterGen4];
+                LetterList.Remove(Letter4value);
 
                 NumberGen2 = Random.Range(0, 9);
                 Number2value = NumberList[NumberGen2];
@@ -2311,8 +2315,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter6value = LetterList[LetterGen6];
                 LetterList.Remove(Letter6value);
 
-                LetterGen7 = Random.Range(0, 11);
-                Letter7value = LetterList[LetterGen7];
+                LetterGen7 = Random.Range(0, 10);
+                Letter7value = EvenLetterList[LetterGen7];
                 EvenLetterList.Remove(Letter7value);
 
                 NumberGen1 = Random.Range(0, 9);
@@ -3960,8 +3964,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter6value = LetterList[LetterGen6];
                 LetterList.Remove(Letter6value);
 
-                LetterGen7 = Random.Range(0, 11);
-                Letter7value = LetterList[LetterGen7];
+                LetterGen7 = Random.Range(0, 10);
+                Letter7value = EvenLetterList[LetterGen7];
                 EvenLetterList.Remove(Letter7value);
 
                 NumberGen1 = Random.Range(0, 9);
@@ -4100,7 +4104,7 @@ public class KritConnectionDev : MonoBehaviour
                 Letter2value = LetterList[LetterGen2];
                 LetterList.Remove(Letter2value);
 
-                LetterGen3 = Random.Range(0, 11);
+                LetterGen3 = Random.Range(0, 10);
                 Letter3value = EvenLetterList[LetterGen3];
                 EvenLetterList.Remove(Letter3value);
 
@@ -4237,7 +4241,7 @@ public class KritConnectionDev : MonoBehaviour
                 Letter2value = LetterList[LetterGen2];
                 LetterList.Remove(Letter2value);
 
-                LetterGen3 = Random.Range(0, 11);
+                LetterGen3 = Random.Range(0, 10);
                 Letter3value = EvenLetterList[LetterGen3];
                 EvenLetterList.Remove(Letter3value);
 
@@ -4359,7 +4363,7 @@ public class KritConnectionDev : MonoBehaviour
             {
                 CodeShouldContain = "3BT";
                 ItemPresent = "3BT";
-                Debug.LogFormat("[Connection Device #{0}] Port '{1}' is present", moduleId, ItemPresent);
+                Debug.LogFormat("[Connection Device #{0}] Battery '{1}' is present", moduleId, ItemPresent);
 
                 SetButtonLetters.Add("B");
                 SetButtonLetters.Add("T");
@@ -4376,9 +4380,13 @@ public class KritConnectionDev : MonoBehaviour
                 Letter2value = LetterList[LetterGen2];
                 LetterList.Remove(Letter2value);
 
-                LetterGen3 = Random.Range(0, 11);
+                LetterGen3 = Random.Range(0, 10);
                 Letter3value = EvenLetterList[LetterGen3];
                 EvenLetterList.Remove(Letter3value);
+
+                LetterGen4 = Random.Range(0, 23);
+                Letter4value = LetterList[LetterGen4];
+                LetterList.Remove(Letter4value);
 
                 NumberGen2 = Random.Range(0, 9);
                 Number2value = NumberList[NumberGen2];
@@ -4491,7 +4499,7 @@ public class KritConnectionDev : MonoBehaviour
             {
                 CodeShouldContain = "4BT";
                 ItemPresent = "4BT";
-                Debug.LogFormat("[Connection Device #{0}] Port '{1}' is present", moduleId, ItemPresent);
+                Debug.LogFormat("[Connection Device #{0}] Battery '{1}' is present", moduleId, ItemPresent);
 
                 SetButtonLetters.Add("B");
                 SetButtonLetters.Add("T");
@@ -4508,9 +4516,13 @@ public class KritConnectionDev : MonoBehaviour
                 Letter2value = LetterList[LetterGen2];
                 LetterList.Remove(Letter2value);
 
-                LetterGen3 = Random.Range(0, 11);
+                LetterGen3 = Random.Range(0, 10);
                 Letter3value = EvenLetterList[LetterGen3];
                 EvenLetterList.Remove(Letter3value);
+
+                LetterGen4 = Random.Range(0, 23);
+                Letter4value = LetterList[LetterGen4];
+                LetterList.Remove(Letter4value);
 
                 NumberGen2 = Random.Range(0, 9);
                 Number2value = NumberList[NumberGen2];
@@ -4640,8 +4652,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter6value = LetterList[LetterGen6];
                 LetterList.Remove(Letter6value);
 
-                LetterGen7 = Random.Range(0, 11);
-                Letter7value = LetterList[LetterGen7];
+                LetterGen7 = Random.Range(0, 10);
+                Letter7value = EvenLetterList[LetterGen7];
                 EvenLetterList.Remove(Letter7value);
 
                 NumberGen1 = Random.Range(0, 9);
@@ -4884,7 +4896,7 @@ public class KritConnectionDev : MonoBehaviour
             {
                 if (Message.StartsWith("B") || Message.StartsWith("D") || Message.StartsWith("F") || Message.StartsWith("H") || Message.StartsWith("J") || Message.StartsWith("L") || Message.StartsWith("N") || Message.StartsWith("P") || Message.StartsWith("R") || Message.StartsWith("T") || Message.StartsWith("V") || Message.StartsWith("X") || Message.StartsWith("Z"))
                 {
-                    if (Message.EndsWith("6") || Message.EndsWith("7") || Message.EndsWith("8") || Message.EndsWith("9"))
+                    if (Message.EndsWith("5") || Message.EndsWith("6") || Message.EndsWith("7") || Message.EndsWith("8") || Message.EndsWith("9"))
                     {
                         if (Message.Distinct().Count() == Message.Count())
                         {
