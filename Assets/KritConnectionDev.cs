@@ -4835,7 +4835,7 @@ public class KritConnectionDev : MonoBehaviour
             }
             if (Program == "Discord")
             {
-                if (Message.StartsWith("1") || Message.StartsWith("2") || Message.StartsWith("3") || Message.StartsWith("4") || Message.StartsWith("5"))
+                if (Message.StartsWith("0") || Message.StartsWith("1") || Message.StartsWith("2") || Message.StartsWith("3") || Message.StartsWith("4") || Message.StartsWith("5"))
                 {
                     if (Message.Distinct().Count() == Message.Count())
                     {
