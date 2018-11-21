@@ -192,7 +192,6 @@ public class KritConnectionDev : MonoBehaviour
         WhatsappSelect.OnInteract += Whatsapp;
         DiscordSelect.OnInteract += Discord;
         SkypeSelect.OnInteract += Skype;
-        BootupBtn.ForceSelectionHighlight = true;
     }
 
     void Start()
@@ -4108,7 +4107,7 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = EvenLetterList[LetterGen3];
                 EvenLetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
+                NumberGen1 = Random.Range(6, 9);
                 Number1value = NumberList[NumberGen1];
                 NumberList.Remove(Number1value);
 
@@ -4245,7 +4244,7 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = EvenLetterList[LetterGen3];
                 EvenLetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
+                NumberGen1 = Random.Range(6, 9);
                 Number1value = NumberList[NumberGen1];
                 NumberList.Remove(Number1value);
 
@@ -4388,7 +4387,7 @@ public class KritConnectionDev : MonoBehaviour
                 Letter4value = LetterList[LetterGen4];
                 LetterList.Remove(Letter4value);
 
-                NumberGen2 = Random.Range(0, 9);
+                NumberGen2 = Random.Range(6, 9);
                 Number2value = NumberList[NumberGen2];
                 NumberList.Remove(Number2value);
 
@@ -4524,7 +4523,7 @@ public class KritConnectionDev : MonoBehaviour
                 Letter4value = LetterList[LetterGen4];
                 LetterList.Remove(Letter4value);
 
-                NumberGen2 = Random.Range(0, 9);
+                NumberGen2 = Random.Range(6, 9);
                 Number2value = NumberList[NumberGen2];
                 NumberList.Remove(Number2value);
 
@@ -4656,7 +4655,7 @@ public class KritConnectionDev : MonoBehaviour
                 Letter7value = EvenLetterList[LetterGen7];
                 EvenLetterList.Remove(Letter7value);
 
-                NumberGen1 = Random.Range(0, 9);
+                NumberGen1 = Random.Range(6, 9);
                 Number1value = NumberList[NumberGen1];
                 LetterList.Remove(Number1value);
 
