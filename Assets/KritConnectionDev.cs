@@ -39,80 +39,15 @@ public class KritConnectionDev : MonoBehaviour
 
     public KMAudio LaptopSFX;
 
-
-    List<string> NumberSerial = new List<string>
-    {
-        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
-    };
-    List<string> LetterSerial = new List<string>
-    {
-        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "W"
-    };
-
-    private readonly string TwitchHelpMessage = "Type '!{0} boot' to boot up the device. Type '!{0} press letter 1' to press the first letter key (Or '!{0} press number 1 for the first number'), from left to right. Type '!{0} submit' to send the message.";
-    public KMSelectable[] ProcessTwitchCommand(string Command)
-    {
-        Command = Command.ToLowerInvariant().Trim();
-
-        if (Command.Equals("boot"))
-        {
-            return new[] { BootupBtn };
-        }
-        else if (Command.Equals("press letter 1"))
-        {
-            return new[] { Letter1Btn };
-        }
-        else if (Command.Equals("press letter 2"))
-        {
-            return new[] { Letter2Btn };
-        }
-        else if (Command.Equals("press letter 3"))
-        {
-            return new[] { Letter3Btn };
-        }
-        else if (Command.Equals("press letter 4"))
-        {
-            return new[] { Letter4Btn };
-        }
-        else if (Command.Equals("press letter 5"))
-        {
-            return new[] { Letter5Btn };
-        }
-        else if (Command.Equals("press number 1"))
-        {
-            return new[] { Number1Btn };
-        }
-        else if (Command.Equals("press number 2"))
-        {
-            return new[] { Number2Btn };
-        }
-        else if (Command.Equals("press number 3"))
-        {
-            return new[] { Number3Btn };
-        }
-        else if (Command.Equals("press number 4"))
-        {
-            return new[] { Number4Btn };
-        }
-        else if (Command.Equals("press number 5"))
-        {
-            return new[] { Number5Btn };
-        }
-        else if (Command.Equals("submit"))
-        {
-            return new[] { SubmitBtn };
-        }
-        return null;
-    }
     public KMBombInfo BombInfo;
 
     static int moduleIdCounter = 1;
     int moduleId;
-
     int SerialNum1Gen;
     int SerialNum2Gen;
-
     int Characters;
+    public int TPBombTimer;
+    public int TPWaitingTimer;
 
     string Number1value;
     string Number2value;
@@ -130,6 +65,25 @@ public class KritConnectionDev : MonoBehaviour
     string Letter6value;
     string Letter7value;
 
+    string FirstLetterSerial;
+    string SerialNr;
+    string Program;
+    string KeyPressed;
+    public string Message;
+    string ErrorMessage;
+    string CodeShouldContain;
+    string ItemPresent;
+    public string TPString;
+
+    List<string> NumberSerial = new List<string>
+    {
+        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+    };
+
+    List<string> LetterSerial = new List<string>
+    {
+        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "W"
+    };
 
     List<string> NumberList = new List<string>
     {
@@ -150,23 +104,216 @@ public class KritConnectionDev : MonoBehaviour
 
     List<string> SetButtonNumbers = new List<string>();
 
-    string FirstLetterSerial;
+    char CharLtr1, CharLtr2, CharLtr3, CharLtr4, CharLtr5, CharLtr6, CharLtr7;
+    char CharNum1, CharNum2, CharNum3, CharNum4, CharNum5, CharNum6, CharNum7;
 
-    string SerialNr;
-
-    string Program;
-
-    string KeyPressed;
-
-    public string Message;
-    string ErrorMessage;
-
-    string CodeShouldContain;
-    string ItemPresent;
+    public List<char> AllButtons;
 
     bool TypingActive = false;
     bool TypeCharacter = false;
     bool FirstCharacter = true;
+    bool CPUBooted;
+    bool ProgramOpened = false;
+    public bool TPTyping = false;
+
+    IEnumerator ProcessTwitchCommand(string Command)
+    {
+        Command = Command.ToLowerInvariant().Trim();
+        KMSelectable buttonSelectable = null;
+
+        if (Regex.IsMatch(Command, "boot"))
+        {
+            buttonSelectable = BootupBtn;
+        }
+        else if (Regex.IsMatch(Command, "open whatsapp"))
+        {
+            if (CPUBooted)
+            {
+                buttonSelectable = WhatsappSelect;
+            }
+            else
+            {
+                yield return "sendtochaterror Can't open Whatsapp: The device isn't booted.";
+            }
+        }
+        else if (Regex.IsMatch(Command, "open discord"))
+        {
+            if (CPUBooted)
+            {
+                buttonSelectable = DiscordSelect;
+            }
+            else
+            {
+                yield return "sendtochaterror Can't open Discord: The device isn't booted.";
+            }
+        }
+        else if (Regex.IsMatch(Command, "open skype"))
+        {
+            if (CPUBooted)
+            {
+                buttonSelectable = SkypeSelect;
+            }
+            else
+            {
+                yield return "sendtochaterror Can't open Skype: The device isn't booted.";
+            }
+        }
+        else if (Regex.IsMatch(Command, @"^set \w\w\w\w\w\w"))
+        {
+            if (CPUBooted)
+            {
+                if (ProgramOpened)
+                {
+                    TPString = Command.Remove(0, 4);
+                    yield return TPString;
+                    if (TPString.All(ch => AllButtons.Contains(ch)))
+                    {
+                        if (Message.Length > 6)
+                        {
+                            yield return "sendtochaterror A code has already been entered, and the maximum character count of 6 was reached.";
+                            yield break;
+                        }
+                        else
+                        {
+                            TPTyping = true;
+
+                            foreach (char ch in TPString)
+                            {
+                                if (ch == ' ')
+                                    continue;
+                                if (ch.ToString().ToUpperInvariant() == Letter1BtnText.text)
+                                {
+                                    buttonSelectable = Letter1Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Letter2BtnText.text)
+                                {
+                                    buttonSelectable = Letter2Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Letter3BtnText.text)
+                                {
+                                    buttonSelectable = Letter3Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Letter4BtnText.text)
+                                {
+                                    buttonSelectable = Letter4Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Letter5BtnText.text)
+                                {
+                                    buttonSelectable = Letter5Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Letter6BtnText.text)
+                                {
+                                    buttonSelectable = Letter6Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Letter7BtnText.text)
+                                {
+                                    buttonSelectable = Letter7Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Number1BtnText.text)
+                                {
+                                    buttonSelectable = Number1Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Number2BtnText.text)
+                                {
+                                    buttonSelectable = Number2Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Number3BtnText.text)
+                                {
+                                    buttonSelectable = Number3Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Number4BtnText.text)
+                                {
+                                    buttonSelectable = Number4Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Number5BtnText.text)
+                                {
+                                    buttonSelectable = Number5Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Number6BtnText.text)
+                                {
+                                    buttonSelectable = Number6Btn;
+                                }
+                                else if (ch.ToString().ToUpperInvariant() == Number7BtnText.text)
+                                {
+                                    buttonSelectable = Number7Btn;
+                                }
+                                yield return buttonSelectable;
+                                yield return new WaitForSeconds(0.1f);
+                                yield return buttonSelectable;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        yield return "sendtochaterror Can't set a message: The given code cannot be made with the current buttons.";
+                    }
+                }
+                else
+                {
+                    yield return "sendtochaterror Can't set a message: No program was opened for the given code.";
+                }
+            }
+            else
+            {
+                yield return "sendtochaterror Can't set a message: The device isn't booted.";
+            }
+        }
+        else if (Regex.IsMatch(Command, @"^send xx:\d\d"))
+        {
+            if (CPUBooted)
+            {
+                if (ProgramOpened)
+                {
+                    if (TextMessage.text.Length == 6)
+                    {
+                        TPString = Command.Trim('s', 'e', 'n', 'd', 'n', ' ', 'x', ':');
+                        TPWaitingTimer = int.Parse(TPString);
+                        StartCoroutine("TimerHandler");
+                        while (TPWaitingTimer != TPBombTimer)
+                        {
+                            yield return "trycancel";
+                        }
+                        buttonSelectable = SubmitBtn;
+                        StopCoroutine("TimerHandler");
+                    }
+                    else
+                    {
+                        yield return "sendtochaterror Can't send the message: No message was set.";
+                    }
+                }
+                else
+                {
+                    yield return "sendtochaterror Can't send the message: No program was opened.";
+                }
+            }
+            else
+            {
+                yield return "sendtochaterror Can't send the message: The device isn't booted.";
+            }
+        }
+        if (TPTyping)
+        {
+            TPTyping = false;
+            yield break;
+        }
+        else
+        {
+            yield return buttonSelectable;
+            yield return new WaitForSeconds(0.1f);
+            yield return buttonSelectable;
+        }
+    }
+
+    private readonly string TwitchHelpMessage = "Type '!{0} boot' to boot up the device. Type '!{0} open <Program>' to open the given program (Possible options: whatsapp, discord and skype). Type '!{0} set <Code>' to set the message to the entered code. Type '!{0} send XX:<digit>' (Including the XX) to send the message at the given seconds.";
+
+    IEnumerator TimerHandler()
+    {
+        while (true)
+        {
+            TPBombTimer = ((int)BombInfo.GetTime()) % 60;
+            yield return new WaitForSecondsRealtime(1f);
+        }
+    }
 
     void Awake()
     {
@@ -322,8 +469,8 @@ public class KritConnectionDev : MonoBehaviour
 
     void WhatsappApp() //Opening the program
     {
-        TextBlock.transform.Translate(0.01f, 0, -0.0025f);
-        TextMessage.transform.Translate(0.01f, -0.0025f, 0);
+        TextBlock.transform.localPosition = new Vector3(0.0102f, -0.00733f, 0.00045f);
+        TextMessage.transform.localPosition = new Vector3(0.00746f, -0.001f, -0.0014f);
 
         TextMessage.color = Color.black;
         TextBlockMat.material.color = Color.black;
@@ -336,8 +483,8 @@ public class KritConnectionDev : MonoBehaviour
 
     void DiscordApp()
     {
-        TextBlock.transform.Translate(0.003f, 0.0002f, 0.0005f);
-        TextMessage.transform.Translate(0.003f, 0.00075f, -0.0005f);
+        TextBlock.transform.localPosition = new Vector3(-0.00058f, -0.0002f, 0.00098f);
+        TextMessage.transform.localPosition = new Vector3(-0.007f, -0.00049f, 0.0014f);
         TextMessage.color = Color.white;
         TextBlockMat.material.color = Color.white;
         ScreenMat.material.mainTexture = DiscordOpen;
@@ -345,8 +492,8 @@ public class KritConnectionDev : MonoBehaviour
 
     void SkypeApp()
     {
-        TextBlock.transform.Translate(0.006f, 0f, -0.002f);
-        TextMessage.transform.Translate(0.006f, -0.0015f, -0.0005f);
+        TextBlock.transform.localPosition = new Vector3(0.009f, -0.00754f, 0.0005f);
+        TextMessage.transform.localPosition = new Vector3(0.0035f, -0.0014f, -0.00166f);
         TextMessage.color = Color.white;
         TextBlockMat.material.color = Color.white;
         ScreenMat.material.mainTexture = SkypeOpen;
@@ -361,13 +508,12 @@ public class KritConnectionDev : MonoBehaviour
             TextBlock.transform.Translate(0.0026f, 0, 0);
             if (FirstCharacter == true)
             {
-                TextBlock.transform.Translate(-0.002f, 0, 0);
+                TextBlock.transform.Translate(-0.0019f, 0, 0);
             }
             if (KeyPressed == "Num1")
             {
                 TextMessage.text += Number1value;
                 Message += Number1value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Number1value);
                 FirstCharacter = false;
                 TypeCharacter = false;
             }
@@ -375,7 +521,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Number2value;
                 Message += Number2value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Number2value);
                 FirstCharacter = false;
                 TypeCharacter = false;
             }
@@ -383,7 +528,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Number3value;
                 Message += Number3value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Number3value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -391,7 +535,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Number4value;
                 Message += Number4value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Number4value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -399,7 +542,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Number5value;
                 Message += Number5value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Number5value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -407,7 +549,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Number6value;
                 Message += Number6value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Number6value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -415,7 +556,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Number7value;
                 Message += Number7value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Number7value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -425,7 +565,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Letter1value;
                 Message += Letter1value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Letter1value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -433,7 +572,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Letter2value;
                 Message += Letter2value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Letter2value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -441,7 +579,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Letter3value;
                 Message += Letter3value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Letter3value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -449,7 +586,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Letter4value;
                 Message += Letter4value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Letter4value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -457,7 +593,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Letter5value;
                 Message += Letter5value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Letter5value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -465,7 +600,6 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Letter6value;
                 Message += Letter6value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Letter6value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
@@ -473,11 +607,9 @@ public class KritConnectionDev : MonoBehaviour
             {
                 TextMessage.text += Letter7value;
                 Message += Letter7value;
-                Debug.LogFormat("[Connection Device #{0}] Character {1} is a {2}", moduleId, Characters, Letter7value);
                 TypeCharacter = false;
                 FirstCharacter = false;
             }
-            Debug.LogFormat("[Connection Device #{0}] The message at character {1} is: {2}", moduleId, Characters, Message);
         }
         else
         {
@@ -4777,6 +4909,41 @@ public class KritConnectionDev : MonoBehaviour
 
     void LogCode()
     {
+        //TP related. Nothing too mayor.
+        {
+            CharLtr1 = Convert.ToChar(Letter1value.ToLowerInvariant());
+            CharLtr2 = Convert.ToChar(Letter2value.ToLowerInvariant());
+            CharLtr3 = Convert.ToChar(Letter3value.ToLowerInvariant());
+            CharLtr4 = Convert.ToChar(Letter4value.ToLowerInvariant());
+            CharLtr5 = Convert.ToChar(Letter5value.ToLowerInvariant());
+            CharLtr6 = Convert.ToChar(Letter6value.ToLowerInvariant());
+            CharLtr7 = Convert.ToChar(Letter7value.ToLowerInvariant());
+
+            CharNum1 = Convert.ToChar(Number1value.ToLowerInvariant());
+            CharNum2 = Convert.ToChar(Number2value.ToLowerInvariant());
+            CharNum3 = Convert.ToChar(Number3value.ToLowerInvariant());
+            CharNum4 = Convert.ToChar(Number4value.ToLowerInvariant());
+            CharNum5 = Convert.ToChar(Number5value.ToLowerInvariant());
+            CharNum6 = Convert.ToChar(Number6value.ToLowerInvariant());
+            CharNum7 = Convert.ToChar(Number7value.ToLowerInvariant());
+
+            AllButtons.Add(CharLtr1);
+            AllButtons.Add(CharLtr2);
+            AllButtons.Add(CharLtr3);
+            AllButtons.Add(CharLtr4);
+            AllButtons.Add(CharLtr5);
+            AllButtons.Add(CharLtr6);
+            AllButtons.Add(CharLtr7);
+
+            AllButtons.Add(CharNum1);
+            AllButtons.Add(CharNum2);
+            AllButtons.Add(CharNum3);
+            AllButtons.Add(CharNum4);
+            AllButtons.Add(CharNum5);
+            AllButtons.Add(CharNum6);
+            AllButtons.Add(CharNum7);
+        }
+        
         if (ItemPresent == "Not Availible")
         {
             Debug.LogFormat("[Connection Device #{0}] There is no port/indicator/battery present on bomb for the desired program {1}, so the code should contain 'NAN'", moduleId, Program);
@@ -4858,7 +5025,7 @@ public class KritConnectionDev : MonoBehaviour
                     }
                     else
                     {
-                        if (CodeShouldContain == "BOB")
+                        if (CodeShouldContain == "BOB" || CodeShouldContain == "NAN")
                         {
                             if (Message.Contains(CodeShouldContain))
                             {
@@ -5270,6 +5437,7 @@ public class KritConnectionDev : MonoBehaviour
 
     protected bool Bootup()
     {
+        CPUBooted = true;
         BootupBtnObj.SetActive(false);
         ActivateScreen();
         GetComponent<KMSelectable>().AddInteractionPunch();
@@ -5291,6 +5459,7 @@ public class KritConnectionDev : MonoBehaviour
         Debug.LogFormat("[Connection Device #{0}] Attempt to open 'Whatsapp'", moduleId);
         if (Program == "Whatsapp")
         {
+            ProgramOpened = true;
             ScreenMat.material.mainTexture = WhatsappBack;
             GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, transform);
             Debug.LogFormat("[Connection Device #{0}] Whatsapp.exe succesfully opened", moduleId);
@@ -5309,6 +5478,7 @@ public class KritConnectionDev : MonoBehaviour
         Debug.LogFormat("[Connection Device #{0}] Attempt to open 'Discord'", moduleId);
         if (Program == "Discord")
         {
+            ProgramOpened = true;
             ScreenMat.material.mainTexture = DiscordBack;
             GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, transform);
             Debug.LogFormat("[Connection Device #{0}] Discord.exe succesfully opened", moduleId);
@@ -5327,6 +5497,7 @@ public class KritConnectionDev : MonoBehaviour
         Debug.LogFormat("[Connection Device #{0}] Attempt to open 'Skype'", moduleId);
         if (Program == "Skype")
         {
+            ProgramOpened = true;
             ScreenMat.material.mainTexture = SkypeBack;
             GetComponent<KMAudio>().PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, transform);
             Debug.LogFormat("[Connection Device #{0}] Skype.exe succesfully opened", moduleId);
