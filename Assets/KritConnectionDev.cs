@@ -298,6 +298,7 @@ public class KritConnectionDev : MonoBehaviour
         }
         else
         {
+            yield return null;
             yield return buttonSelectable;
             yield return new WaitForSeconds(0.1f);
             yield return buttonSelectable;
