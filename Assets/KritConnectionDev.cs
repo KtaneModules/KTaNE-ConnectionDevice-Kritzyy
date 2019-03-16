@@ -100,6 +100,11 @@ public class KritConnectionDev : MonoBehaviour
         "F", "H", "J", "L", "N", "P", "R", "T", "V", "X", "Z"
     };
 
+    List<string> UnevenNumbers = new List<string>
+    {
+        "1", "3", "5", "7", "9"
+    };
+
     List<string> SetButtonLetters = new List<string>();
 
     List<string> SetButtonNumbers = new List<string>();
@@ -680,8 +685,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -817,8 +822,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -961,7 +966,7 @@ public class KritConnectionDev : MonoBehaviour
                 LetterList.Remove(Letter4value);
 
                 NumberGen2 = Random.Range(0, 9);
-                Number2value = NumberList[NumberGen2];
+                Number2value = UnevenNumbers[NumberGen2];
                 NumberList.Remove(Number2value);
 
                 NumberGen3 = Random.Range(0, 8);
@@ -1098,8 +1103,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter4value = LetterList[LetterGen4];
                 LetterList.Remove(Letter4value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen3 = Random.Range(0, 8);
@@ -1217,8 +1222,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -1354,8 +1359,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -1490,8 +1495,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -1626,8 +1631,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -1762,8 +1767,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -1899,8 +1904,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -2035,8 +2040,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -2175,8 +2180,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter4value = LetterList[LetterGen4];
                 LetterList.Remove(Letter4value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -2313,8 +2318,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -2451,8 +2456,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter7value = EvenLetterList[LetterGen7];
                 EvenLetterList.Remove(Letter7value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 LetterList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 8);
@@ -2591,8 +2596,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 8);
@@ -2728,8 +2733,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -2865,8 +2870,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -3002,8 +3007,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -3139,8 +3144,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -3276,8 +3281,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -3413,8 +3418,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -3550,8 +3555,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 8);
@@ -3687,8 +3692,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -3824,8 +3829,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -3961,8 +3966,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = LetterList[LetterGen3];
                 LetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 9);
@@ -4100,8 +4105,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter7value = EvenLetterList[LetterGen7];
                 EvenLetterList.Remove(Letter7value);
 
-                NumberGen1 = Random.Range(0, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 LetterList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 8);
@@ -4240,8 +4245,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = EvenLetterList[LetterGen3];
                 EvenLetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(6, 9);
-                Number1value = NumberList[NumberGen1];
+                NumberGen1 = Random.Range(0, 5);
+                Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 8);
@@ -4377,12 +4382,12 @@ public class KritConnectionDev : MonoBehaviour
                 Letter3value = EvenLetterList[LetterGen3];
                 EvenLetterList.Remove(Letter3value);
 
-                NumberGen1 = Random.Range(6, 9);
+                NumberGen1 = Random.Range(0, 5);
                 Number1value = NumberList[NumberGen1];
                 NumberList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 8);
-                Number2value = NumberList[NumberGen2];
+                Number2value = UnevenNumbers[NumberGen2];
                 NumberList.Remove(Number2value);
 
                 NumberGen3 = Random.Range(0, 7);
@@ -4520,8 +4525,8 @@ public class KritConnectionDev : MonoBehaviour
                 Letter4value = LetterList[LetterGen4];
                 LetterList.Remove(Letter4value);
 
-                NumberGen2 = Random.Range(6, 9);
-                Number2value = NumberList[NumberGen2];
+                NumberGen2 = Random.Range(0, 5);
+                Number2value = UnevenNumbers[NumberGen2];
                 NumberList.Remove(Number2value);
 
                 NumberGen3 = Random.Range(0, 8);
@@ -4656,12 +4661,12 @@ public class KritConnectionDev : MonoBehaviour
                 Letter4value = LetterList[LetterGen4];
                 LetterList.Remove(Letter4value);
 
-                NumberGen2 = Random.Range(6, 9);
+                NumberGen2 = Random.Range(0, 5);
                 Number2value = NumberList[NumberGen2];
                 NumberList.Remove(Number2value);
 
                 NumberGen3 = Random.Range(0, 8);
-                Number3value = NumberList[NumberGen3];
+                Number3value = UnevenNumbers[NumberGen3];
                 NumberList.Remove(Number3value);
 
                 NumberGen4 = Random.Range(0, 7);
@@ -4788,12 +4793,12 @@ public class KritConnectionDev : MonoBehaviour
                 Letter7value = EvenLetterList[LetterGen7];
                 EvenLetterList.Remove(Letter7value);
 
-                NumberGen1 = Random.Range(6, 9);
+                NumberGen1 = Random.Range(0, 5);
                 Number1value = NumberList[NumberGen1];
                 LetterList.Remove(Number1value);
 
                 NumberGen2 = Random.Range(0, 8);
-                Number2value = NumberList[NumberGen2];
+                Number2value = UnevenNumbers[NumberGen2];
                 LetterList.Remove(Number2value);
 
                 NumberGen3 = Random.Range(0, 7);
