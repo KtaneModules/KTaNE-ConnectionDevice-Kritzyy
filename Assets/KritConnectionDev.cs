@@ -1,10 +1,10 @@
-using UnityEngine;
-using KModkit;
-using System.Linq;
-using System.Collections;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using KModkit;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class KritConnectionDev : MonoBehaviour
@@ -46,8 +46,6 @@ public class KritConnectionDev : MonoBehaviour
     int SerialNum1Gen;
     int SerialNum2Gen;
     int Characters;
-    public int TPBombTimer;
-    public int TPWaitingTimer;
 
     string Number1value;
     string Number2value;
@@ -73,7 +71,6 @@ public class KritConnectionDev : MonoBehaviour
     string ErrorMessage;
     string CodeShouldContain;
     string ItemPresent;
-    public string TPString;
 
     List<string> NumberSerial = new List<string>
     {
@@ -119,207 +116,86 @@ public class KritConnectionDev : MonoBehaviour
     bool FirstCharacter = true;
     bool CPUBooted;
     bool ProgramOpened = false;
-    public bool TPTyping = false;
 
-    IEnumerator ProcessTwitchCommand(string Command)
+    IEnumerator ProcessTwitchCommand(string command)
     {
-        Command = Command.ToLowerInvariant().Trim();
-        KMSelectable buttonSelectable = null;
+        Match m;
 
-        if (Regex.IsMatch(Command, "boot"))
-        {
-            buttonSelectable = BootupBtn;
-        }
-        else if (Regex.IsMatch(Command, "open whatsapp"))
-        {
-            if (CPUBooted)
-            {
-                buttonSelectable = WhatsappSelect;
-            }
-            else
-            {
-                yield return "sendtochaterror Can't open Whatsapp: The device isn't booted.";
-            }
-        }
-        else if (Regex.IsMatch(Command, "open discord"))
-        {
-            if (CPUBooted)
-            {
-                buttonSelectable = DiscordSelect;
-            }
-            else
-            {
-                yield return "sendtochaterror Can't open Discord: The device isn't booted.";
-            }
-        }
-        else if (Regex.IsMatch(Command, "open skype"))
-        {
-            if (CPUBooted)
-            {
-                buttonSelectable = SkypeSelect;
-            }
-            else
-            {
-                yield return "sendtochaterror Can't open Skype: The device isn't booted.";
-            }
-        }
-        else if (Regex.IsMatch(Command, @"^set \w\w\w\w\w\w"))
-        {
-            if (CPUBooted)
-            {
-                if (ProgramOpened)
-                {
-                    TPString = Command.Remove(0, 4);
-                    yield return TPString;
-                    if (TPString.All(ch => AllButtons.Contains(ch)))
-                    {
-                        if (Message.Length > 6)
-                        {
-                            yield return "sendtochaterror A code has already been entered, and the maximum character count of 6 was reached.";
-                            yield break;
-                        }
-                        else
-                        {
-                            TPTyping = true;
-
-                            foreach (char ch in TPString)
-                            {
-                                if (ch == ' ')
-                                    continue;
-                                if (ch.ToString().ToUpperInvariant() == Letter1BtnText.text)
-                                {
-                                    buttonSelectable = Letter1Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Letter2BtnText.text)
-                                {
-                                    buttonSelectable = Letter2Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Letter3BtnText.text)
-                                {
-                                    buttonSelectable = Letter3Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Letter4BtnText.text)
-                                {
-                                    buttonSelectable = Letter4Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Letter5BtnText.text)
-                                {
-                                    buttonSelectable = Letter5Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Letter6BtnText.text)
-                                {
-                                    buttonSelectable = Letter6Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Letter7BtnText.text)
-                                {
-                                    buttonSelectable = Letter7Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Number1BtnText.text)
-                                {
-                                    buttonSelectable = Number1Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Number2BtnText.text)
-                                {
-                                    buttonSelectable = Number2Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Number3BtnText.text)
-                                {
-                                    buttonSelectable = Number3Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Number4BtnText.text)
-                                {
-                                    buttonSelectable = Number4Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Number5BtnText.text)
-                                {
-                                    buttonSelectable = Number5Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Number6BtnText.text)
-                                {
-                                    buttonSelectable = Number6Btn;
-                                }
-                                else if (ch.ToString().ToUpperInvariant() == Number7BtnText.text)
-                                {
-                                    buttonSelectable = Number7Btn;
-                                }
-                                yield return buttonSelectable;
-                                yield return new WaitForSeconds(0.1f);
-                                yield return buttonSelectable;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        yield return "sendtochaterror Can't set a message: The given code cannot be made with the current buttons.";
-                    }
-                }
-                else
-                {
-                    yield return "sendtochaterror Can't set a message: No program was opened for the given code.";
-                }
-            }
-            else
-            {
-                yield return "sendtochaterror Can't set a message: The device isn't booted.";
-            }
-        }
-        else if (Regex.IsMatch(Command, @"^send xx:\d\d"))
-        {
-            if (CPUBooted)
-            {
-                if (ProgramOpened)
-                {
-                    if (TextMessage.text.Length == 6)
-                    {
-                        TPString = Command.Trim('s', 'e', 'n', 'd', 'n', ' ', 'x', ':');
-                        TPWaitingTimer = int.Parse(TPString);
-                        StartCoroutine("TimerHandler");
-                        while (TPWaitingTimer != TPBombTimer)
-                        {
-                            yield return "trycancel";
-                        }
-                        buttonSelectable = SubmitBtn;
-                        StopCoroutine("TimerHandler");
-                    }
-                    else
-                    {
-                        yield return "sendtochaterror Can't send the message: No message was set.";
-                    }
-                }
-                else
-                {
-                    yield return "sendtochaterror Can't send the message: No program was opened.";
-                }
-            }
-            else
-            {
-                yield return "sendtochaterror Can't send the message: The device isn't booted.";
-            }
-        }
-        if (TPTyping)
-        {
-            TPTyping = false;
-            yield break;
-        }
-        else
+        if (Regex.IsMatch(command, @"^\s*(?:boot|start|run|turn\s+on)\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
             yield return null;
-            yield return buttonSelectable;
-            yield return new WaitForSeconds(0.1f);
-            yield return buttonSelectable;
+            yield return new[] { BootupBtn };
         }
-    }
-
-    private readonly string TwitchHelpMessage = "Type '!{0} boot' to boot up the device. Type '!{0} open <Program>' to open the given program (Possible options: whatsapp, discord and skype). Type '!{0} set <Code>' to set the message to the entered code. Type '!{0} send XX:<digit>' (Including the XX) to send the message at the given seconds.";
-
-    IEnumerator TimerHandler()
-    {
-        while (true)
+        else if ((m = Regex.Match(command, @"^\s*(?:(?:open|run)\s+)?(?:(?<w>whatsapp)|(?<d>discord)|skype)\s*", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)).Success)
         {
-            TPBombTimer = ((int)BombInfo.GetTime()) % 60;
-            yield return new WaitForSecondsRealtime(1f);
+            if (!CPUBooted)
+            {
+                yield return "sendtochaterror Can’t open app: The device isn’t booted.";
+                yield break;
+            }
+            yield return null;
+            yield return new[] { m.Groups["w"].Success ? WhatsappSelect : m.Groups["d"].Success ? DiscordSelect : SkypeSelect };
+        }
+        else if ((m = Regex.Match(command, @"^\s*(?:set|type|enter) (\w{6})\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)).Success)
+        {
+            if (!CPUBooted)
+            {
+                yield return "sendtochaterror Can’t set a message: The device isn’t booted.";
+                yield break;
+            }
+
+            if (!ProgramOpened)
+            {
+                yield return "sendtochaterror Can’t set a message: You need to open an app first.";
+                yield break;
+            }
+
+            var code = m.Groups[1].Value.ToLowerInvariant();
+            if (!code.All(ch => AllButtons.Contains(ch)))
+            {
+                yield return "sendtochaterror Can’t set a message: The given code cannot be made with the current buttons.";
+                yield break;
+            }
+
+            if (Message.Length > 6)
+            {
+                yield return "sendtochaterror A code has already been entered, and the maximum character count of 6 was reached.";
+                yield break;
+            }
+
+            yield return null;
+            var buttons = new[] { Letter1Btn, Letter2Btn, Letter3Btn, Letter4Btn, Letter5Btn, Letter6Btn, Letter7Btn, Number1Btn, Number2Btn, Number3Btn, Number4Btn, Number5Btn, Number6Btn, Number7Btn };
+            yield return code.Select(ch => buttons[AllButtons.IndexOf(ch)]).ToArray();
+        }
+        else if ((m = Regex.Match(command, @"^\s*(?:send|submit)(?:\s+at)?\s+(\d\d)\s*$")).Success)
+        {
+            if (!CPUBooted)
+            {
+                yield return "sendtochaterror Can’t send the message: The device isn’t booted.";
+                yield break;
+            }
+
+            if (!ProgramOpened)
+            {
+                yield return "sendtochaterror Can’t send the message: No program was opened.";
+                yield break;
+            }
+
+            if (TextMessage.text.Length != 6)
+            {
+                yield return "sendtochaterror Can’t send the message: No message was set.";
+                yield break;
+            }
+
+            yield return null;
+            var secondsValue = int.Parse(m.Groups[1].Value);
+            while (((int) BombInfo.GetTime()) % 60 != secondsValue)
+                yield return "trycancel";
+            yield return new[] { SubmitBtn };
         }
     }
+
+    private readonly string TwitchHelpMessage = "!{0} boot [boot up the device] | !{0} open whatsapp/discord/skype | !{0} set D4BTK5 [enter the message] | !{0} send 45 [send the message when the timer’s seconds are 45]";
 
     void Awake()
     {
@@ -4949,7 +4825,7 @@ public class KritConnectionDev : MonoBehaviour
             AllButtons.Add(CharNum6);
             AllButtons.Add(CharNum7);
         }
-        
+
         if (ItemPresent == "Not Availible")
         {
             Debug.LogFormat("[Connection Device #{0}] There is no port/indicator/battery present on bomb for the desired program {1}, so the code should contain 'NAN'", moduleId, Program);
@@ -4960,6 +4836,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] The code should contain '{1}'", moduleId, CodeShouldContain);
             Debug.LogFormat("[Connection Device #{0}] The code should also contain '{1}', since the 1st letter of the serial is {1}", moduleId, FirstLetterSerial);
         }
+        Debug.LogFormat("[Connection Device #{0}] The buttons on the module are '{1}'", moduleId, AllButtons.Join("").ToUpperInvariant());
     }
 
     //Submit the code
@@ -5090,7 +4967,7 @@ public class KritConnectionDev : MonoBehaviour
                                 CodeIncorrect();
                             }
                         }
-                        else if(Message.Distinct().Count() > 4)
+                        else if (Message.Distinct().Count() > 4)
                         {
 
                             if (Message.Contains(CodeShouldContain))
@@ -5138,7 +5015,7 @@ public class KritConnectionDev : MonoBehaviour
 
     void CheckTime()
     {
-        int Timer = (int)BombInfo.GetTime();
+        int Timer = (int) BombInfo.GetTime();
         Timer %= 60;
         Timer = (Timer / 10) + (Timer % 10);
         if (Timer > 10) Timer -= 10;
@@ -5165,7 +5042,7 @@ public class KritConnectionDev : MonoBehaviour
 
         if (Program == "Whatsapp" && Timer == FirstNumberSerial)
         {
-             CodeCorrect();
+            CodeCorrect();
         }
         else if (Program == "Discord" && Timer == LastNumberSerial)
         {
@@ -5279,7 +5156,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Number key 2 pressed.", moduleId);
             KeyPressed = "Num2";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5292,7 +5169,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Number key 3 pressed.", moduleId);
             KeyPressed = "Num3";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5305,7 +5182,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Number key 4 pressed.", moduleId);
             KeyPressed = "Num4";
             Typing();
-        }       
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5318,7 +5195,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Number key 5 pressed.", moduleId);
             KeyPressed = "Num5";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5331,7 +5208,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Number key 6 pressed.", moduleId);
             KeyPressed = "Num6";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5344,7 +5221,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Number key 7 pressed.", moduleId);
             KeyPressed = "Num7";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5357,7 +5234,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Letter key 1 pressed.", moduleId);
             KeyPressed = "Ltr1";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5370,7 +5247,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Letter key 2 pressed.", moduleId);
             KeyPressed = "Ltr2";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5383,7 +5260,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Letter key 3 pressed.", moduleId);
             KeyPressed = "Ltr3";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5396,7 +5273,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Letter key 4 pressed.", moduleId);
             KeyPressed = "Ltr4";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5409,7 +5286,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Letter key 5 pressed.", moduleId);
             KeyPressed = "Ltr5";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
@@ -5422,7 +5299,7 @@ public class KritConnectionDev : MonoBehaviour
             Debug.LogFormat("[Connection Device #{0}] Letter key 6 pressed.", moduleId);
             KeyPressed = "Ltr6";
             Typing();
-        }        
+        }
         GetComponent<KMSelectable>().AddInteractionPunch();
         LaptopSFX.PlaySoundAtTransform("keyPress", transform);
         return false;
