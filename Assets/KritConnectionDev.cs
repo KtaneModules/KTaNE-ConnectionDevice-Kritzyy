@@ -979,6 +979,10 @@ public class KritConnectionDev : MonoBehaviour
                 Letter4value = LetterList[LetterGen4];
                 LetterList.Remove(Letter4value);
 
+                LetterGen5 = Random.Range(0, 21);
+                Letter5value = LetterList[LetterGen5];
+                LetterList.Remove(Letter5value);
+
                 NumberGen1 = Random.Range(0, 5);
                 Number1value = UnevenNumbers[NumberGen1];
                 NumberList.Remove(Number1value);
@@ -1047,22 +1051,22 @@ public class KritConnectionDev : MonoBehaviour
                 SetButtonLetters.Remove(Letter7value);
 
 
-                PositionGen1N = Random.Range(0, 6);
+                PositionGen1N = Random.Range(0, 5);
                 Number1BtnText.text = SetButtonNumbers[PositionGen1N];
                 Number1value = SetButtonNumbers[PositionGen1N];
                 SetButtonNumbers.Remove(Number1value);
 
-                PositionGen3N = Random.Range(0, 5);
+                PositionGen3N = Random.Range(0, 4);
                 Number3BtnText.text = SetButtonNumbers[PositionGen3N];
                 Number3value = SetButtonNumbers[PositionGen3N];
                 SetButtonNumbers.Remove(Number3value);
 
-                PositionGen4N = Random.Range(0, 4);
+                PositionGen4N = Random.Range(0, 3);
                 Number4BtnText.text = SetButtonNumbers[PositionGen4N];
                 Number4value = SetButtonNumbers[PositionGen4N];
                 SetButtonNumbers.Remove(Number4value);
 
-                PositionGen5N = Random.Range(0, 3);
+                PositionGen5N = Random.Range(0, 2);
                 Number5BtnText.text = SetButtonNumbers[PositionGen5N];
                 Number5value = SetButtonNumbers[PositionGen5N];
                 SetButtonNumbers.Remove(Number5value);
